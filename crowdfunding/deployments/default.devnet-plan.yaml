@@ -11,7 +11,7 @@ plan:
         - contract-publish:
             contract-name: crowdfunding
             expected-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
-            cost: 118100
+            cost: 110460
             path: contracts/contracts/crowdfunding.clar
             anchor-block-only: true
             clarity-version: 2
