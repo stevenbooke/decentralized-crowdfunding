@@ -56,3 +56,6 @@ You can choose to implement this project in any programming language you like, j
 ## 4. Conclusion
 Please don't get overwhelmed with the scope of the project! ***We know it's a lot and we do not expect complete solutions.*** We are also here to work with you to get to the design and solution. This is very much a collaborative process and we want to see you succeed. If you need any help with anything, please don't hesitate to ask the panel at any point and we will work through it together just like we would in a real world setting.
 
+## Design Document
+[Design Document](https://docs.google.com/document/d/1gg4zSSxYwZvlx9n4QVlVM8av5Ls-kIG42ErT3QcRp2U/edit#heading=h.6sshhvl1deof)
+
