@@ -14,12 +14,6 @@ import {
   showConnect,
   UserData,
 } from "@stacks/connect";
-import { StacksMocknet } from "@stacks/network";
-import { 
-  callReadOnlyFunction,
-  cvToValue,
-  ClarityValue
-} from "@stacks/transactions";
 import './App.css';
 import Home from './components/Home';
 import Campaigns from './components/Campaigns';
@@ -57,47 +51,9 @@ function App() {
       userSession.handlePendingSignIn()
       .then((userData: UserData) => {
         setUserData(userData);
-        const contractAddress = 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM';
-        const contractName = 'crowdfunding';
-        const functionName = 'get-campaign-id-nonce';
-        const network = new StacksMocknet();
-        const senderAddress = userData!.identityAddress!;
-
-        const options = {
-          contractAddress,
-          contractName,
-          functionName,
-          functionArgs: [],
-          network,
-          senderAddress,
-        };
-
-        return callReadOnlyFunction(options);
-      })
-      .then((campaignIdNonce: ClarityValue) => {
-        setCampaignIdNonce(cvToValue(campaignIdNonce));
       });
     } else if (userSession.isUserSignedIn()) {
-      const userData = userSession.loadUserData();
       setUserData(userSession.loadUserData());
-      const contractAddress = 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM';
-      const contractName = 'crowdfunding';
-      const functionName = 'get-campaign-id-nonce';
-      const network = new StacksMocknet();
-      const senderAddress = userData!.identityAddress!;
-
-      const options = {
-        contractAddress,
-        contractName,
-        functionName,
-        functionArgs: [],
-        network,
-        senderAddress,
-      };
-
-      callReadOnlyFunction(options).then((campaignIdNonce: ClarityValue) => {
-        setCampaignIdNonce(cvToValue(campaignIdNonce));
-      });
     }
 
   }, []);

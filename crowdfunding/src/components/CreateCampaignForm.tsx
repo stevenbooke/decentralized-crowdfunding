@@ -2,15 +2,14 @@ import {
     useState,
 } from "react";
 import {
-  UserData,
+  UserData, openContractCall,
 } from "@stacks/connect";
 import { StacksMocknet } from "@stacks/network";
 import { 
   stringUtf8CV,
   uintCV,
-  makeContractCall,
-  broadcastTransaction,
   AnchorMode,
+  PostConditionMode,
 } from "@stacks/transactions";
 
 type CreateCampaignProps = {
@@ -18,7 +17,6 @@ type CreateCampaignProps = {
 }
 
 function CreateCampaignForm({userData}: CreateCampaignProps) {
-  console.log('userData CreateCampaignForm', userData);
   const INITIAL_STATE = {
     campaignName: '',
     campaignDescription: '',
@@ -39,8 +37,6 @@ function CreateCampaignForm({userData}: CreateCampaignProps) {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    alert(form.campaignName + ' ' + form.campaignDescription + ' ' + form.campaignLink + ' ' + form.campaignGoal + ' ' + form.campaignDuration);
-
     // call handler here
     createCampaign(form.campaignName, form.campaignDescription, form.campaignLink, form.campaignGoal, form.campaignDuration);
 
@@ -49,20 +45,26 @@ function CreateCampaignForm({userData}: CreateCampaignProps) {
 
   const createCampaign = async (name: string, description: string, link: string, goal: number | bigint, duration: number | bigint) => {
     const network = new StacksMocknet();
+
     const txOptions = {
       contractAddress: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM',
       contractName: 'crowdfunding',
       functionName: 'create-campaign',
       functionArgs: [stringUtf8CV(name), stringUtf8CV(description), stringUtf8CV(link), uintCV(goal), uintCV(duration)],
-      senderKey: '7287ba251d44a4d3fd9276c88ce34c5c52a038955511cccaf77e61068649c17801',
       validateWithAbi: true,
       network,
       anchorMode: AnchorMode.Any,
+      PostConditionMode: PostConditionMode.Allow,
+      onFinish: (response: any) => {
+        // WHEN user confirms pop-up
+      },
+      onCancel: () => {
+        // WHEN user cancels/closes pop-up
+      },
     };
     
-    const transaction = await makeContractCall(txOptions);
-    
-    const broadcastResponse = await broadcastTransaction(transaction, network);
+    await openContractCall(txOptions);
+    console.log('createCampaign after openContractCall');
   };
 
   return (<div>
