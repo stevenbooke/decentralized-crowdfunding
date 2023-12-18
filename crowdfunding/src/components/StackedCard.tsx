@@ -16,6 +16,8 @@ function StackedCard({userData, campaign }: CardProps) {
       <div className="px-6 py-4">
         <div className="font-bold text-xl mb-2">{campaign.name}</div>
         <p className="text-gray-700 text-base">{campaign.description}</p>
+        <p className="text-gray-700 text-base">{campaign.link}</p>
+        <p className="text-gray-700 text-base">{campaign.goal}μSTX</p>
       </div>
   </li>
   );

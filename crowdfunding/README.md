@@ -4,7 +4,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Clarity Testing
 
-In the crowdfunding project directory, you can run:
+In the `crowdfunding` project directory, you can run:
 
 ### `npm run test-contracts`
 
@@ -174,10 +174,7 @@ In the example below, the private function `validate` checks its parameter. The 
 ```
 
 ## Available Scripts
-
-### `npm test`
-
-In the project directory, you can run:
+In the `crowdfunding` project directory, you can run:
 
 ### `npm start`
 
@@ -218,3 +215,9 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 ![Alt text](images/FrontendLeatherConnectPopup.png)
 
 ![Alt text](images/FrontendCreateCampaignForm.png)
+
+![Alt text](images/FrontendCreateCampaignFormWithInput.png)
+
+![Alt text](images/FrontendCreateCampaignFormSubmitLeatherConfirmationPopup.png)
+
+![Alt text](images/FrontendRenderingCampaignCards.png)

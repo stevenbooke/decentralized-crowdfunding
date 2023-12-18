@@ -1,6 +1,4 @@
-import React from 'react';
 import {
-  BrowserRouter as Router,
   Routes,
   Route,
 } from "react-router-dom";
@@ -14,12 +12,6 @@ import {
   showConnect,
   UserData,
 } from "@stacks/connect";
-import { StacksMocknet } from "@stacks/network";
-import { 
-  callReadOnlyFunction,
-  cvToValue,
-  ClarityValue
-} from "@stacks/transactions";
 import './App.css';
 import Home from './components/Home';
 import Campaigns from './components/Campaigns';
@@ -27,77 +19,39 @@ import Layout from './components/Layout';
 import { CreateCampaignForm } from './components/CreateCampaignForm';
 
 export type Campaign = {
-  campaignId: number | bigint,
+  campaignId: number,
   name: string,
   fundraiser: string,
-  goal: number | bigint,
-  targetBlockHeight: number | bigint,
+  goal: number,
+  'target-block-height': number,
   description: string,
   link: string,
-  targetReached: boolean,
-  targetReachedHeight: number | bigint,
-  funded: boolean
+  // 'total-investment': number,
+  // 'total-investors': number,
+  // targetReached: boolean,
+  // targetReachedHeight: number,
+  // funded: boolean
 };
 
 function App() {
 
   const appConfig = new AppConfig(["store_write", "publish_data"]);
-
-  const [userSession, setUserSession] = useState<UserSession>(new UserSession({ appConfig }));
+  const userSession = new UserSession({ appConfig });
   const [appDetails, setAppDetails] = useState({
     name: "Crowdfunding",
     icon: "https://freesvg.org/img/1541103084.png",
   });
   const [userData, setUserData] = useState<UserData | undefined>(undefined);
-  const [campaigns, setCampaigns] = useState<Array<Campaign>>([]);
-  const [campaignIdNonce, setCampaignIdNonce] = useState<number | bigint | undefined>(undefined);
 
+  // USER DATA
   useEffect(() => {
     if (userSession.isSignInPending()) {
       userSession.handlePendingSignIn()
       .then((userData: UserData) => {
         setUserData(userData);
-        const contractAddress = 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM';
-        const contractName = 'crowdfunding';
-        const functionName = 'get-campaign-id-nonce';
-        const network = new StacksMocknet();
-        const senderAddress = userData!.identityAddress!;
-
-        const options = {
-          contractAddress,
-          contractName,
-          functionName,
-          functionArgs: [],
-          network,
-          senderAddress,
-        };
-
-        return callReadOnlyFunction(options);
-      })
-      .then((campaignIdNonce: ClarityValue) => {
-        setCampaignIdNonce(cvToValue(campaignIdNonce));
       });
     } else if (userSession.isUserSignedIn()) {
-      const userData = userSession.loadUserData();
       setUserData(userSession.loadUserData());
-      const contractAddress = 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM';
-      const contractName = 'crowdfunding';
-      const functionName = 'get-campaign-id-nonce';
-      const network = new StacksMocknet();
-      const senderAddress = userData!.identityAddress!;
-
-      const options = {
-        contractAddress,
-        contractName,
-        functionName,
-        functionArgs: [],
-        network,
-        senderAddress,
-      };
-
-      callReadOnlyFunction(options).then((campaignIdNonce: ClarityValue) => {
-        setCampaignIdNonce(cvToValue(campaignIdNonce));
-      });
     }
 
   }, []);
@@ -118,8 +72,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home userSession={userSession} userData={userData} connectWallet={connectWallet}/>} />
-          <Route path="campaigns" element={<Campaigns userData={userData} campaigns={campaigns}/>} />
-          <Route path="create-campaign-form" element={<CreateCampaignForm userData={userData}/>} />
+          <Route path="campaigns" element={<Campaigns userData={userData} />} />
+          <Route path="create-campaign-form" element={<CreateCampaignForm userData={userData} />} />
         </Route>
       </Routes>
     </div>
